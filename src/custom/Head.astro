@@ -1,0 +1,20 @@
+---
+// Rendered in <head> on every page, after the theme's own tags. Add
+// your own tags here: analytics, site verification, extra <meta> or
+// <link>, stylesheets. This file is yours: AstroPaper never changes it
+// after release.
+import "katex/dist/katex.min.css";
+import "@/styles/custom.css";
+
+type Props = {
+  title: string;
+  description: string;
+};
+
+// 已由 Layout 写入 <title>/<meta>，这里保留 props 以便自定义标签取用。
+void (Astro.props as Props);
+---
+
+<meta name="format-detection" content="telephone=no" />
+
+{/* 需要时在此追加：站点验证 meta、统计脚本、额外的 <link rel="stylesheet"> */}

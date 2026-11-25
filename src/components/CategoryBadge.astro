@@ -1,0 +1,45 @@
+---
+import { getRelativeLocaleUrl } from "astro:i18n";
+import { getCategoryByName } from "@/data/categories";
+import config from "@/config";
+
+type Props = {
+  /** frontmatter 中的栏目名 */
+  category: string;
+  size?: "sm" | "md";
+  class?: string;
+};
+
+const { category, size = "sm", class: className } = Astro.props;
+
+const locale = Astro.currentLocale ?? config.site.lang;
+const meta = getCategoryByName(category);
+const href = meta
+  ? getRelativeLocaleUrl(locale, `categories/${meta.slug}/`)
+  : undefined;
+---
+
+{
+  href ? (
+    <a
+      href={href}
+      class:list={[
+        "text-muted-foreground border-border hover:border-accent hover:text-accent inline-flex items-center rounded-full border px-2.5 py-0.5 transition-colors",
+        size === "md" ? "text-sm" : "text-xs",
+        className,
+      ]}
+    >
+      {meta?.name ?? category}
+    </a>
+  ) : (
+    <span
+      class:list={[
+        "text-muted-foreground border-border inline-flex items-center rounded-full border px-2.5 py-0.5",
+        size === "md" ? "text-sm" : "text-xs",
+        className,
+      ]}
+    >
+      {category}
+    </span>
+  )
+}

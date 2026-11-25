@@ -1,0 +1,178 @@
+---
+import { getCollection } from "astro:content";
+import { getRelativeLocaleUrl } from "astro:i18n";
+import IconRss from "@/assets/icons/IconRss.svg";
+import IconArrowRight from "@/assets/icons/IconArrowRight.svg";
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import Socials from "@/components/Socials.astro";
+import Card from "@/components/Card.astro";
+import LinkButton from "@/components/LinkButton.astro";
+import { CATEGORIES } from "@/data/categories";
+import { getSortedPosts } from "@/utils/getSortedPosts";
+import { postFilter } from "@/utils/postFilter";
+import { tplStr, useTranslations } from "@/i18n";
+import config from "@/config";
+
+const { socials, posts: postsConfig } = config;
+
+const locale = Astro.currentLocale ?? config.site.lang;
+const t = useTranslations(locale);
+
+const posts = (await getCollection("posts")).filter(postFilter);
+const sortedPosts = getSortedPosts(posts);
+const featuredPosts = sortedPosts.filter(({ data }) => data.featured);
+const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
+
+const countByCategory = new Map(
+  CATEGORIES.map(category => [
+    category.name,
+    posts.filter(post => post.data.category === category.name).length,
+  ])
+);
+
+const homePath = getRelativeLocaleUrl(locale, "");
+---
+
+<Layout>
+  <Header />
+  <main
+    id="main-content"
+    data-layout="index"
+    data-home-path={homePath}
+    class="app-layout my-1"
+  >
+    <section id="hero" class="border-border border-b pt-8 pb-6">
+      <h1
+        class="mt-4 mb-2 inline-block text-3xl font-bold text-balance sm:mt-8 sm:text-5xl"
+      >
+        三个方向，一堆小玩意
+      </h1>
+      <a
+        target="_blank"
+        rel="noopener"
+        href={`${import.meta.env.BASE_URL.replace(/\/?$/, "/")}rss.xml`}
+        class="text-muted-foreground hover:text-accent ms-3 inline-flex items-center gap-1 align-middle text-sm"
+        aria-label="RSS 订阅"
+        title="RSS 订阅"
+      >
+        <IconRss width={16} height={16} class="stroke-accent stroke-2" />
+        <span>RSS</span>
+      </a>
+
+      <p>
+        这里记录我在<strong>电力电子</strong>、<strong
+          >动力工程及工程热物理</strong
+        >、<strong>气象学</strong
+        >三个方向上的学习笔记与工程实践，也放一些自己折腾的小工具。
+      </p>
+      <p class="mt-2">
+        文章里的公式用 KaTeX 排版、流程图用 Mermaid 绘制，评论挂在 GitHub
+        Discussions 上——整个站点是纯静态的，托管在 GitHub Pages。
+      </p>
+      <p class="mt-2">
+        想从头看，可以去<LinkButton
+          class="hover:text-accent underline decoration-dashed underline-offset-4"
+          href={getRelativeLocaleUrl(locale, "posts")}
+        >
+          文章列表</LinkButton
+        >，或者按栏目浏览。
+      </p>
+      {
+        socials.length > 0 && (
+          <div class="mt-4 flex max-sm:flex-col sm:items-center">
+            <div class="me-2 mb-1 whitespace-nowrap sm:mb-0">
+              {t.home.socialLinks}:
+            </div>
+            <Socials />
+          </div>
+        )
+      }
+    </section>
+
+    <section id="categories" class="pt-12 pb-6">
+      <h2 class="text-2xl font-semibold tracking-wide">{t.home.categories}</h2>
+      <ul class="mt-4 grid gap-3 sm:grid-cols-2">
+        {
+          CATEGORIES.map(category => (
+            <li>
+              <a
+                href={getRelativeLocaleUrl(
+                  locale,
+                  `categories/${category.slug}/`
+                )}
+                class="border-border hover:border-accent flex h-full flex-col rounded-xl border px-4 py-3 transition-colors"
+              >
+                <span class="text-accent font-medium">{category.name}</span>
+                <span class="text-muted-foreground mt-1 text-sm leading-relaxed">
+                  {category.description}
+                </span>
+                <span class="text-muted-foreground mt-auto pt-2 text-xs">
+                  {tplStr(t.pages.categoryPostCount, {
+                    count: countByCategory.get(category.name) ?? 0,
+                  })}
+                </span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    {
+      featuredPosts.length > 0 && (
+        <section
+          id="featured"
+          class:list={[
+            "pt-12 pb-6",
+            { "border-border border-b": recentPosts.length > 0 },
+          ]}
+        >
+          <h2 class="text-2xl font-semibold tracking-wide">
+            {t.home.featured}
+          </h2>
+          <ul>
+            {featuredPosts.map(data => (
+              <Card variant="h3" {...data} />
+            ))}
+          </ul>
+        </section>
+      )
+    }
+
+    {
+      recentPosts.length > 0 && (
+        <section id="recent-posts" class="pt-12 pb-6">
+          <h2 class="text-2xl font-semibold tracking-wide">
+            {t.home.recentPosts}
+          </h2>
+          <ul>
+            {recentPosts.slice(0, postsConfig.perIndex).map(data => (
+              <Card variant="h3" {...data} />
+            ))}
+          </ul>
+        </section>
+      )
+    }
+
+    <div class="my-8 text-center">
+      <LinkButton href={getRelativeLocaleUrl(locale, "posts")}>
+        {t.home.allPosts}
+        <IconArrowRight class="inline-block rtl:-rotate-180" />
+      </LinkButton>
+    </div>
+  </main>
+  <Footer />
+</Layout>
+
+<script>
+  document.addEventListener("astro:page-load", () => {
+    const indexLayout = (document.querySelector("#main-content") as HTMLElement)
+      ?.dataset;
+    const baseRoot = import.meta.env.BASE_URL.replace(/\/?$/, "/");
+    if (indexLayout?.layout) {
+      sessionStorage.setItem("backUrl", indexLayout.homePath ?? baseRoot);
+    }
+  });
+</script>

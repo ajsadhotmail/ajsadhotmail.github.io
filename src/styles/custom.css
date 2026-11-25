@@ -1,0 +1,101 @@
+/* ============================================================================
+ * 站点自定义样式：数学公式 (KaTeX)、Mermaid 图表、Giscus 评论
+ * 与主题样式分离，升级 AstroPaper 时不必担心被覆盖。
+ * ========================================================================== */
+
+/* ---------------------------------------------------------------- KaTeX --- */
+
+.katex {
+  font-size: 1.05em;
+}
+
+.katex-display {
+  color: var(--foreground);
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-block: 0.4rem;
+}
+
+.katex-display > .katex {
+  font-size: 1.1em;
+}
+
+/* 窄屏上略缩小独立公式，减少横向滚动 */
+@media (max-width: 640px) {
+  .katex-display > .katex {
+    font-size: 1em;
+  }
+}
+
+/* 公式在行内过长时允许断行，避免撑破窄屏 */
+.app-prose p > .katex {
+  white-space: normal;
+}
+
+/* -------------------------------------------------------------- Mermaid --- */
+
+.mermaid-block {
+  margin: 1.75rem 0;
+  text-align: center;
+  /* 宽图在窄屏上横向滚动，而不是整体缩小到看不清 */
+  overflow-x: auto;
+  padding-bottom: 0.25rem;
+}
+
+.mermaid-block .mermaid-source {
+  margin: 0;
+  text-align: left;
+  overflow-x: auto;
+}
+
+/* JS 渲染完成后隐藏源码，只留 SVG；渲染失败时仍显示源码，读者不会看到空白 */
+.mermaid-block.is-rendered:has(svg) .mermaid-source {
+  display: none;
+}
+
+.mermaid-block svg {
+  display: block;
+  margin-inline: auto;
+  max-width: none;
+  height: auto;
+}
+
+/* 超宽图表的滚动提示（由 scripts/mermaid-render.ts 插入） */
+.mermaid-hint {
+  margin: -0.75rem 0 1.5rem;
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
+}
+
+.mermaid-block.is-scrollable {
+  scrollbar-width: thin;
+  scrollbar-color: var(--muted) transparent;
+}
+
+/* --------------------------------------------------------------- Giscus --- */
+
+.giscus-block {
+  margin-top: 2.5rem;
+}
+
+.giscus-block > h2 {
+  margin-bottom: 0.75rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.giscus-placeholder {
+  border: 1px dashed var(--border);
+  border-radius: 0.5rem;
+  padding: 1rem 1.25rem;
+  font-size: 0.875rem;
+  line-height: 1.7;
+}
+
+.giscus-placeholder code {
+  background: var(--muted);
+  border-radius: 0.25rem;
+  padding: 0.1rem 0.3rem;
+  font-size: 0.85em;
+}

@@ -1,0 +1,67 @@
+---
+import type { GetStaticPathsOptions } from "astro";
+import { getCollection } from "astro:content";
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import Breadcrumb from "@/components/Breadcrumb.astro";
+import Main from "@/components/Main.astro";
+import Card from "@/components/Card.astro";
+import Footer from "@/components/Footer.astro";
+import Pagination from "@/components/Pagination.astro";
+import { CATEGORIES } from "@/data/categories";
+import { getSortedPosts } from "@/utils/getSortedPosts";
+import { postFilter } from "@/utils/postFilter";
+import { tplStr, useTranslations } from "@/i18n";
+import config from "@/config";
+
+export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
+  const posts = (await getCollection("posts")).filter(postFilter);
+
+  return CATEGORIES.flatMap(category => {
+    const categoryPosts = getSortedPosts(
+      posts.filter(post => post.data.category === category.name)
+    );
+
+    return paginate(categoryPosts, {
+      params: { category: category.slug },
+      props: { categoryName: category.name },
+      pageSize: config.posts.perPage,
+    });
+  });
+}
+
+const { page, categoryName } = Astro.props;
+
+const locale = Astro.currentLocale ?? config.site.lang;
+const t = useTranslations(locale);
+
+const pageTitle = `${t.pages.categoriesTitle}: ${categoryName}`;
+const category = CATEGORIES.find(item => item.name === categoryName);
+const pageDesc = category?.description ?? t.pages.categoriesDesc;
+---
+
+<Layout title={`${pageTitle} | ${config.site.title}`} description={pageDesc}>
+  <Header />
+
+  <Breadcrumb />
+
+  <Main pageTitle={pageTitle} pageDesc={pageDesc}>
+    {
+      page.data.length > 0 ? (
+        <ul>
+          {page.data.map(post => (
+            <Card {...post} />
+          ))}
+        </ul>
+      ) : (
+        <p class="text-muted-foreground my-8 text-sm">
+          {tplStr(t.pages.categoryPostCount, { count: 0 })}
+        </p>
+      )
+    }
+  </Main>
+
+  <Pagination {page} />
+
+  <Footer noMarginTop={page.lastPage > 1} />
+</Layout>

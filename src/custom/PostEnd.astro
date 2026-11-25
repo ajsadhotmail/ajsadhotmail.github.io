@@ -1,0 +1,146 @@
+---
+// 文章页末尾（分享按钮之后、上一篇/下一篇之前）：评论系统。
+// 文章 frontmatter 里写 `comments: false` 可以单独关闭某篇文章的评论。
+import type { CollectionEntry } from "astro:content";
+import config from "@/config";
+import { giscusSettings, isGiscusConfigured } from "@/data/giscus";
+import { useTranslations } from "@/i18n";
+
+type Props = {
+  post: CollectionEntry<"posts">;
+};
+
+const { post } = Astro.props;
+const t = useTranslations(Astro.currentLocale ?? config.site.lang);
+
+const showComments = post.data.comments !== false;
+const s = giscusSettings;
+---
+
+{
+  showComments && (
+    <section class="giscus-block" aria-label={t.post.comments}>
+      <h2>{t.post.comments}</h2>
+
+      {isGiscusConfigured ? (
+        <div
+          id="giscus-container"
+          data-repo={s.repo}
+          data-repo-id={s.repoId}
+          data-category={s.category}
+          data-category-id={s.categoryId}
+          data-mapping={s.mapping}
+          data-reactions-enabled={s.reactionsEnabled}
+          data-emit-metadata={s.emitMetadata}
+          data-input-position={s.inputPosition}
+          data-lang={s.lang}
+          data-light-theme={s.theme.light}
+          data-dark-theme={s.theme.dark}
+        />
+      ) : (
+        <div class="giscus-placeholder">
+          <p>
+            评论尚未启用。在 <code>src/data/giscus.ts</code> 填入仓库与分类
+            ID，或在构建时提供 <code>PUBLIC_GISCUS_REPO</code>、
+            <code>PUBLIC_GISCUS_REPO_ID</code>、
+            <code>PUBLIC_GISCUS_CATEGORY_ID</code> 环境变量即可生效。
+          </p>
+          <p class="mt-2">
+            需要：仓库公开 + 打开 Discussions + 安装{" "}
+            <a
+              href="https://github.com/apps/giscus"
+              target="_blank"
+              rel="noopener"
+              class="hover:text-accent underline decoration-dashed underline-offset-4"
+            >
+              Giscus App
+            </a>
+            ，然后在{" "}
+            <a
+              href="https://giscus.app/zh-CN"
+              target="_blank"
+              rel="noopener"
+              class="hover:text-accent underline decoration-dashed underline-offset-4"
+            >
+              giscus.app
+            </a>{" "}
+            生成配置。
+          </p>
+        </div>
+      )}
+    </section>
+  )
+}
+
+<script is:inline data-astro-rerun>
+  // Giscus 客户端脚本：按当前主题注入评论框，并在明暗切换时同步配色。
+  (function () {
+    function currentTheme(container) {
+      const dark = document.documentElement.dataset.theme === "dark";
+      return dark
+        ? container.dataset.darkTheme || "dark"
+        : container.dataset.lightTheme || "light";
+    }
+
+    function buildScript(container) {
+      const script = document.createElement("script");
+      script.src = "https://giscus.app/client.js";
+      script.async = true;
+      script.crossOrigin = "anonymous";
+      const attrs = {
+        "data-repo": container.dataset.repo,
+        "data-repo-id": container.dataset.repoId,
+        "data-category": container.dataset.category,
+        "data-category-id": container.dataset.categoryId,
+        "data-mapping": container.dataset.mapping || "pathname",
+        "data-strict": "0",
+        "data-reactions-enabled": container.dataset.reactionsEnabled || "1",
+        "data-emit-metadata": container.dataset.emitMetadata || "0",
+        "data-input-position": container.dataset.inputPosition || "bottom",
+        "data-theme": currentTheme(container),
+        "data-lang": container.dataset.lang || "zh-CN",
+        "data-loading": "lazy",
+      };
+      for (const key of Object.keys(attrs)) {
+        if (attrs[key]) script.setAttribute(key, attrs[key]);
+      }
+      return script;
+    }
+
+    function initGiscus() {
+      const container = document.getElementById("giscus-container");
+      if (!container || container.dataset.giscusInit === "true") return;
+      container.dataset.giscusInit = "true";
+      container.appendChild(buildScript(container));
+    }
+
+    function setGiscusTheme() {
+      const container = document.getElementById("giscus-container");
+      if (!container) return;
+      const iframe = document.querySelector("iframe.giscus-frame");
+      if (!iframe || !iframe.contentWindow) return;
+      iframe.contentWindow.postMessage(
+        { giscus: { setConfig: { theme: currentTheme(container) } } },
+        "https://giscus.app"
+      );
+    }
+
+    initGiscus();
+    document.addEventListener("astro:page-load", initGiscus);
+
+    if (!window.__giscusThemeBound) {
+      window.__giscusThemeBound = true;
+      new MutationObserver(function (mutations) {
+        for (const mutation of mutations) {
+          if (mutation.attributeName === "data-theme") {
+            setGiscusTheme();
+            break;
+          }
+        }
+      }).observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ["data-theme"],
+      });
+    }
+  })();
+</script>
