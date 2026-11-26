@@ -1,4 +1,9 @@
-import { defineConfig, envField, fontProviders, svgoOptimizer } from "astro/config";
+import {
+  defineConfig,
+  envField,
+  fontProviders,
+  svgoOptimizer,
+} from "astro/config";
 import tailwindcss from "@tailwindcss/vite";
 import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
@@ -94,11 +99,10 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
   },
-  // Optional: self-host a web font with the Astro Fonts API, e.g. to keep the
-  // theme's original "Google Sans Code" body font. The blog uses a system font
-  // stack (see `--font-app` in src/styles/theme.css) so Chinese text renders
-  // sharply and the build needs no network access.
-  //
+  // 正文网络字体：Latin 用 Roboto、中文用 Noto Sans SC，构建时从 Google 下载并
+  // 自托管，因此构建机需要能访问 fonts.googleapis.com。`cssVariable` 与
+  // src/styles/theme.css 里 `--font-app` 的 var(...) 一一对应。
+  // 改回纯系统字体：删掉整个 fonts 数组，并把 --font-app 换成系统字体栈。
   fonts: [
     {
       name: "Roboto",

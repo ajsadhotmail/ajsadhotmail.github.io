@@ -18,20 +18,17 @@ export const CATEGORIES = [
   {
     slug: "power-electronics",
     name: "电力电子技术",
-    description:
-      "电力电子变换器拓扑、控制策略、仿真分析与实践。",
+    description: "电力电子变换器拓扑、控制策略、仿真分析与实践。",
   },
   {
     slug: "thermal-engineering",
     name: "动力工程及工程热物理",
-    description:
-      "传热传质分析与实验、电力电子器件及其热管理。",
+    description: "传热传质分析与实验、电力电子器件及其热管理。",
   },
   {
     slug: "meteorology",
     name: "气象学",
-    description:
-      "经典教材学习、热带气旋与大气环流分析。",
+    description: "经典教材学习、热带气旋与大气环流分析。",
   },
   {
     slug: "playground",

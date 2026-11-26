@@ -52,8 +52,17 @@ const homePath = getRelativeLocaleUrl(locale, "");
       </h1> -->
       <h1 class="mt-4 mb-4 inline-block align-middle sm:mt-8">
         <span class="sr-only">乘物游心</span>
-        <img src={logoLight} alt="乘物游心" class="block h-12 w-auto dark:hidden sm:h-16" />
-        <img src={logoDark} alt="" aria-hidden="true" class="hidden h-12 w-auto dark:block sm:h-16" />
+        <img
+          src={logoLight}
+          alt="乘物游心"
+          class="block h-12 w-auto sm:h-16 dark:hidden"
+        />
+        <img
+          src={logoDark}
+          alt=""
+          aria-hidden="true"
+          class="hidden h-12 w-auto sm:h-16 dark:block"
+        />
       </h1>
       <a
         target="_blank"
@@ -68,10 +77,10 @@ const homePath = getRelativeLocaleUrl(locale, "");
       </a>
 
       <p>
-        浙江大学电气工程学院 2023 级本科生，即将在本校攻读电气工程硕士。我的兴趣内容主要包括<strong>电力电子技术</strong>、<strong
-          >动力工程及工程热物理</strong
-        >和<strong>气象学</strong
-        >。
+        浙江大学电气工程学院 2023
+        级本科生，即将在本校攻读电气工程硕士。我的兴趣内容主要包括<strong
+          >电力电子技术</strong
+        >、<strong>动力工程及工程热物理</strong>和<strong>气象学</strong>。
       </p>
       {
         socials.length > 0 && (
@@ -93,8 +102,7 @@ const homePath = getRelativeLocaleUrl(locale, "");
                   locale,
                   `categories/${category.slug}/`
                 )}
-                class="border-[1.5px]
-                 hover:border-accent flex h-full flex-col rounded-none border px-4 py-3 transition-colors"
+                class="hover:border-accent flex h-full flex-col rounded-none border border-[1.5px] px-4 py-3 transition-colors"
               >
                 <span class="text-accent font-medium">{category.name}</span>
                 <span class="text-muted-foreground mt-1 text-sm leading-relaxed">
