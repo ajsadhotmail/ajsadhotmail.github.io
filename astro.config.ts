@@ -1,4 +1,4 @@
-import { defineConfig, envField, svgoOptimizer } from "astro/config";
+import { defineConfig, envField, fontProviders, svgoOptimizer } from "astro/config";
 import tailwindcss from "@tailwindcss/vite";
 import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
@@ -99,16 +99,27 @@ export default defineConfig({
   // stack (see `--font-app` in src/styles/theme.css) so Chinese text renders
   // sharply and the build needs no network access.
   //
-  // fonts: [
-  //   {
-  //     name: "Google Sans Code",
-  //     cssVariable: "--font-body",
-  //     provider: fontProviders.google(),
-  //     fallbacks: ["monospace"],
-  //     weights: [300, 400, 500, 600, 700],
-  //     styles: ["normal", "italic"],
-  //   },
-  // ],
+  fonts: [
+    {
+      name: "Roboto",
+      cssVariable: "--font-roboto",
+      provider: fontProviders.google(),
+      weights: [400, 500, 700],
+      styles: ["normal"],
+      subsets: ["latin"],
+      display: "swap",
+      fallbacks: ["sans-serif"],
+    },
+    {
+      name: "Noto Sans SC",
+      cssVariable: "--font-noto-sc",
+      provider: fontProviders.google(),
+      weights: [400, 500, 700],
+      styles: ["normal"],
+      display: "swap",
+      fallbacks: ["sans-serif"],
+    },
+  ],
   env: {
     schema: {
       PUBLIC_GOOGLE_SITE_VERIFICATION: envField.string({

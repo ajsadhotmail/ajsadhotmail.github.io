@@ -17,26 +17,26 @@ export interface Category {
 export const CATEGORIES = [
   {
     slug: "power-electronics",
-    name: "电力电子",
+    name: "电力电子技术",
     description:
-      "变换器拓扑、小信号建模与控制环路、磁性元件、功率器件与驱动设计。",
+      "电力电子变换器拓扑、控制策略、仿真分析与实践。",
   },
   {
     slug: "thermal-engineering",
     name: "动力工程及工程热物理",
     description:
-      "热力循环与㶲分析、传热传质、燃烧与流体机械，以及它们在工程中的权衡。",
+      "传热传质分析与实验、电力电子器件及其热管理。",
   },
   {
     slug: "meteorology",
     name: "气象学",
     description:
-      "天气系统与锋面、大气热力学与稳定度、数值预报与再分析资料的应用。",
+      "经典教材学习、热带气旋与大气环流分析。",
   },
   {
     slug: "playground",
-    name: "小玩意",
-    description: "自己折腾的小工具、脚本、硬件实验和那些不够成文的想法。",
+    name: "杂项",
+    description: "不成文的想法。",
   },
 ] as const satisfies readonly Category[];
 

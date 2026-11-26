@@ -11,12 +11,12 @@ export default defineAstroPaperConfig({
      *
      * 也可以在构建时用环境变量覆盖：`SITE_URL=https://example.com pnpm build`。
      */
-    url: "https://your-name.github.io",
-    title: "工程笔记",
+    url: "https://ajsadhotmail.github.io",
+    title: "AJSAD Home",
     description:
-      "电力电子、动力工程及工程热物理、气象学的学习与工程笔记，另有一些自己折腾的小玩意。",
-    author: "站长",
-    profile: "https://github.com/your-name",
+      "个人博客。",
+    author: "ajsadhotmail",
+    profile: "https://github.com/ajsadhotmail",
     ogImage: "default-og.jpg",
     lang: "zh",
     timezone: "Asia/Shanghai",
@@ -39,14 +39,14 @@ export default defineAstroPaperConfig({
     editPost: {
       enabled: true,
       // 改成你的仓库地址后，文章末尾会出现「编辑此页」链接
-      url: "https://github.com/your-name/blog/edit/main/",
+      url: "https://github.com/ajsadhotmail/blog/edit/main/",
     },
     search: "pagefind",
     toc: true,
   },
   socials: [
-    { name: "github", url: "https://github.com/your-name" },
-    { name: "mail", url: "mailto:you@example.com" },
+    { name: "github", url: "https://github.com/ajsadhotmail" },
+    { name: "mail", url: "mailto:ajsadhot@gmail.com" },
   ],
   shareLinks: [
     { name: "x", url: "https://x.com/intent/post?url=" },

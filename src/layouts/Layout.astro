@@ -6,6 +6,7 @@ import config from "@/config";
 import "@/styles/global.css";
 import CustomHead from "@/custom/Head.astro";
 import CustomBodyEnd from "@/custom/BodyEnd.astro";
+import { Font } from "astro:assets";
 
 type Props = {
   title?: string;
@@ -42,6 +43,8 @@ const rssHref = getAssetPath("rss.xml");
     <meta name="generator" content={Astro.generator} />
 
     <!-- Fonts: system stack, configured by `--font-app` in src/styles/theme.css -->
+    <Font cssVariable="--font-roboto" preload />
+    <Font cssVariable="--font-noto-sc" />
 
     <!-- Primary meta -->
     <title>{title}</title>

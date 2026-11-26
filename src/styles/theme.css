@@ -8,8 +8,8 @@
   --color-muted-foreground: var(--muted-foreground);
   --color-border: var(--border);
   --font-app:
-    ui-sans-serif, system-ui, -apple-system, "Segoe UI", "PingFang SC",
-    "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+    var(--font-roboto), var(--font-noto-sc), "PingFang SC", "Microsoft YaHei",
+    sans-serif;
   --font-mono:
     ui-monospace, "SFMono-Regular", "Cascadia Code", Consolas,
     "Liberation Mono", monospace;
@@ -19,21 +19,21 @@
 :root,
 [data-theme="light"] {
   --background: #fdfdfd;
-  --foreground: #282728;
-  --accent: #006cac;
+  --foreground: #3c353c;
+  --accent: #373c3f;
   --accent-foreground: #ffffff;
   --muted: #e6e6e6;
   --muted-foreground: #6b7280;
-  --border: #ece9e9;
+  --border: #52576079;
 }
 
 /* Dark theme values */
 [data-theme="dark"] {
-  --background: #212737;
-  --foreground: #eaedf3;
-  --accent: #ff6b01;
-  --accent-foreground: #ffffff;
-  --muted: #343f60;
-  --muted-foreground: #afb9ca;
-  --border: #ab4b08;
+  --background: #1c1c1c;
+  --foreground: #f0f6fc;
+  --accent: #f0f6fc;
+  --accent-foreground: #f0f6fc;
+  --muted: #383b3f;
+  --muted-foreground: #9198a1;
+  --border: #ffffff6b;
 }

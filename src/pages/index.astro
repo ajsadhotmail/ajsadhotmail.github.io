@@ -14,6 +14,8 @@ import { getSortedPosts } from "@/utils/getSortedPosts";
 import { postFilter } from "@/utils/postFilter";
 import { tplStr, useTranslations } from "@/i18n";
 import config from "@/config";
+import logoLight from "@/assets/logo-dark.svg?url";
+import logoDark from "@/assets/logo-white.svg?url";
 
 const { socials, posts: postsConfig } = config;
 
@@ -43,11 +45,15 @@ const homePath = getRelativeLocaleUrl(locale, "");
     data-home-path={homePath}
     class="app-layout my-1"
   >
-    <section id="hero" class="border-border border-b pt-8 pb-6">
-      <h1
-        class="mt-4 mb-2 inline-block text-3xl font-bold text-balance sm:mt-8 sm:text-5xl"
-      >
-        三个方向，一堆小玩意
+    <section id="hero" class="border-border border-b-[1.1pt] pt-8 pb-6">
+      <!-- <h1
+        class="mt-4 mb-2 inline-block text-3xl font-bold text-balance sm:mt-8 sm:text-5xl">
+        乘物游心
+      </h1> -->
+      <h1 class="mt-4 mb-4 inline-block align-middle sm:mt-8">
+        <span class="sr-only">乘物游心</span>
+        <img src={logoLight} alt="乘物游心" class="block h-12 w-auto dark:hidden sm:h-16" />
+        <img src={logoDark} alt="" aria-hidden="true" class="hidden h-12 w-auto dark:block sm:h-16" />
       </h1>
       <a
         target="_blank"
@@ -62,29 +68,14 @@ const homePath = getRelativeLocaleUrl(locale, "");
       </a>
 
       <p>
-        这里记录我在<strong>电力电子</strong>、<strong
+        浙江大学电气工程学院 2023 级本科生，即将在本校攻读电气工程硕士。我的兴趣内容主要包括<strong>电力电子技术</strong>、<strong
           >动力工程及工程热物理</strong
-        >、<strong>气象学</strong
-        >三个方向上的学习笔记与工程实践，也放一些自己折腾的小工具。
-      </p>
-      <p class="mt-2">
-        文章里的公式用 KaTeX 排版、流程图用 Mermaid 绘制，评论挂在 GitHub
-        Discussions 上——整个站点是纯静态的，托管在 GitHub Pages。
-      </p>
-      <p class="mt-2">
-        想从头看，可以去<LinkButton
-          class="hover:text-accent underline decoration-dashed underline-offset-4"
-          href={getRelativeLocaleUrl(locale, "posts")}
-        >
-          文章列表</LinkButton
-        >，或者按栏目浏览。
+        >和<strong>气象学</strong
+        >。
       </p>
       {
         socials.length > 0 && (
           <div class="mt-4 flex max-sm:flex-col sm:items-center">
-            <div class="me-2 mb-1 whitespace-nowrap sm:mb-0">
-              {t.home.socialLinks}:
-            </div>
             <Socials />
           </div>
         )
@@ -102,7 +93,8 @@ const homePath = getRelativeLocaleUrl(locale, "");
                   locale,
                   `categories/${category.slug}/`
                 )}
-                class="border-border hover:border-accent flex h-full flex-col rounded-xl border px-4 py-3 transition-colors"
+                class="border-[1.5px]
+                 hover:border-accent flex h-full flex-col rounded-none border px-4 py-3 transition-colors"
               >
                 <span class="text-accent font-medium">{category.name}</span>
                 <span class="text-muted-foreground mt-1 text-sm leading-relaxed">

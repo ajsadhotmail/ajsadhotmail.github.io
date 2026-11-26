@@ -36,7 +36,7 @@ const datetime = dayjs(isModified ? modDatetime : pubDatetime).tz(
 
 const locale = Astro.currentLocale ?? config.site.lang;
 const dateFormat = locale.startsWith("zh")
-  ? "YYYY[年]M[月]D[日]"
+  ? "YYYY [年] M [月] D [日]"
   : "D MMM, YYYY";
 const date = datetime.format(dateFormat);
 ---
