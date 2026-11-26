@@ -39,7 +39,7 @@ export default defineAstroPaperConfig({
     editPost: {
       enabled: true,
       // 改成你的仓库地址后，文章末尾会出现「编辑此页」链接
-      url: "https://github.com/ajsadhotmail/blog/edit/main/",
+      url: "https://github.com/ajsadhotmail/ajsadhotmail.github.io/edit/main/",
     },
     search: "pagefind",
     toc: true,

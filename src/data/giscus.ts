@@ -34,10 +34,10 @@ export interface GiscusSettings {
 const env = import.meta.env;
 
 export const giscusSettings: GiscusSettings = {
-  repo: env.PUBLIC_GISCUS_REPO ?? "",
-  repoId: env.PUBLIC_GISCUS_REPO_ID ?? "",
-  category: env.PUBLIC_GISCUS_CATEGORY ?? "Announcements",
-  categoryId: env.PUBLIC_GISCUS_CATEGORY_ID ?? "",
+  repo: env.PUBLIC_GISCUS_REPO || "ajsadhotmail/ajsadhotmail.github.io",
+  repoId: env.PUBLIC_GISCUS_REPO_ID || "MDEwOlJlcG9zaXRvcnkxNDUxOTg3ODU=",
+  category: env.PUBLIC_GISCUS_CATEGORY || "Announcements",
+  categoryId: env.PUBLIC_GISCUS_CATEGORY_ID || "DIC_kwDOCKeOwc4DL_me",
   mapping: "pathname",
   reactionsEnabled: "1",
   emitMetadata: "0",
